@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Detection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300&display=swap" rel="stylesheet"> 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+
+   /* Default styles */
+
+* {
+  font-family: 'Figtree', sans-serif;
+  color: white;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  font-family:bold;
+  font-size: 50px;
+}
+
+#section1 {
+  width: 20%;
+  height: 100%;
+  float: left;
+  --tw-bg-opacity: 1;
+  background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#section2 {
+  width: 80%;
+  height: 100%;
+  float: right;
+  --tw-bg-opacity: 1;
+  background-color: rgba(68, 70, 84, var(--tw-bg-opacity));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#section3 {
+  width: 80%;
+  height: 0%;
+  float: right;
+  --tw-bg-opacity: 1;
+  background-color: rgba(52, 53, 65, var(--tw-bg-opacity));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#cardContainer {
+  flex-grow: 1;
+  overflow: auto;
+  display: none;
+}
+
+#HomePageContainer {
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+  width: 80%;
+}
+
+#ButtonsContainer {
+  width: 80%;
+  margin: auto;
+  
+  display: none;
+}
+
+.card {
+  width: 80%;
+  height: auto;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px auto;
+}
+
+.card .heading {
+  --tw-bg-opacity: 1;
+  background-color: rgba(52,53,65,var(--tw-bg-opacity));
+  padding: 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.card .content {
+  --tw-bg-opacity: 1;
+    background-color: rgba(0,0,0,var(--tw-bg-opacity));;
+  padding: 20px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#addCardBtn {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  --tw-bg-opacity: 1;
+  background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+  color: white;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  display: none;
+}
+
+#uploadBtn {
+  position: fixed;
+  font-family: 'Figtree', sans-serif;
+  margin: auto;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid rgb(81, 79, 79);
+  --tw-bg-opacity: 1;
+  background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#refresh-button {
+  position: fixed;
+  bottom: 10px;
+  margin: auto;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid rgb(81, 79, 79);
+  --tw-bg-opacity: 1;
+  background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  display: none;
+}
+
+#processBtn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border-radius: 10px;
+  border: 2px solid rgb(81, 79, 79);
+  --tw-bg-opacity: 1;
+  background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+  color: white;
+  cursor: pointer;
+}
+
+#imageContainer {
+  padding: 10px 20px;
+}
+
+/*Text Field*/
+#cardHeading {
+  position: fixed;
+  bottom: 10px;
+  right: auto;
+  width: 15cm;
+  padding: 10px 20px;
+  border-radius: 20px;
+  --tw-bg-opacity: 1;
+  background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+  border: none;
+  text-decoration: none;
+  display: none;
+}
+
+/* #logo {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  margin-top: 0;
+  position: relative;
+} */
+
+/* Media queries */
+
+/* Mobile devices */
+@media only screen and (max-width: 600px) {
+  #section1 {
+    width: 100%;
+    float: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+  }
+
+  #section1::before {
+    content: "\2630"; /* Unicode character for hamburger menu */
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+  }
+}
+  #section2,
+  #section3 {
+    width: 100%;
+    float: none;
+  }
+
+  .card {
+    width: 80%;
+  }
+
+
+/* Tablets and small desktops */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  #section1 {
+    width: 30%;
+  }
+
+  #section2,
+  #section3 {
+    width: 70%;
+  }
+}
+
+/* Large desktops and beyond */
+@media only screen and (min-width: 1025px) {
+  #section1 {
+    width: 20%;
+  }
+
+  #section2,
+  #section3 {
+    width: 80%;
+  }
+
+
+  #contnt{
+    width: 100%;
+    
+    /* border: 2px solid black;  */
+    /* height: 100%; */
+  }
+
+  #tbl-contnt {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: separate;
+  border-spacing: 15px;
+  width: 100%;
+  
+}
+
+#tbl-contnt td, #tbl-contnt th {
+  /* border: 1px solid #ddd; */
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: var(--tw-bg-opacity);
+  text-align: center;
+}
+
+/*#tbl-contnt td{
+  font-family: 'Press Start 2P', cursive; 
+}*/
+/* #tbl-contnt tr:nth-child(even){background-color: #f2f2f2;} */
+
+/* #tbl-contnt tr:hover {background-color: #ddd;} */
+
+#tbl-contnt th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /* text-align: center; */
+  --tw-bg-opacity: 1;
+  background-color: rgba(52, 53, 65, var(--tw-bg-opacity));
+  font-size: .875rem;
+    line-height: 1.25rem;
+  
+  color: white;
+}
+}
+.cards-container {
+  display: flex;
+  gap: 20px;
+}
+
+.cards-container-1 {
+  align-content: center; 
+  display: flex;
+  gap: 40px;
+}
+
+.card1 {
+  /*background-color: #5f5c5c;*/
+  --tw-bg-opacity: 1;
+  background-color:rgba(52,53,65,var(--tw-bg-opacity)); /* Add a background color to separate the cards visually */
+  border-radius: 5px;
+  padding: 10px; /* Adjust the padding to make the card smaller */
+  cursor: pointer;
+  width: 200px; /* Adjust the width to make the card smaller */
+  margin: 10px auto;
+}
+
+.card1 h2 {
+  font-size: 18px; /* Adjust the font size to make the heading smaller */
+  margin-bottom: 5px; /* Add a small margin between the heading and content */
+}
+
+.info1 {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px; /* Adjust the font size for the information */
+}
+
+.card1.active .info1 {
+  display: block;
+}
+
+
+
+
+
+/* Additional media queries for specific elements if needed */
+
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="section1">
+    <!-- <img id= 'logo' src="brain_lightning-removebg-preview.png" alt="Your Logo" /> -->
+    
+    <button id="uploadBtn">Upload Image</button>
+    <div id="imageContainer"></div>
+    <br>
+    <button id="processBtn" style="display: none;">Process the Image</button>
+    <br>
+    <h3 id="processedText" style="display: none; color: white;">Image processed</h3>
+    <button id="refresh-button">Start new chat</button>
+  </div>
+  <div id="section2"> 
+    <div id="HomePageContainer">
+      <h1>Crop Detection</h1>
+        <h4>Experience the power of crop detection with our advanced system. Unlock the potential of your fields, streamline your farming practices, and gain unparalleled insights into your crops like never before. Join us on this innovative journey towards smarter agriculture and sustainable food production.</h4>
+        <h4>Get to know about the features of our website below:</h4>
+        <br>
+        <div id="contnt">
+          <table id="tbl-contnt">
+            <tr>
+            <div class="cards-container-1">
+              <div class="card1" onclick="toggleInfo(this)">
+                <h2>Upload Image</h2>
+                <div class="info1">
+                  <!-- Add information related to Image Upload here -->
+                  <p>Click on the Upload Image button to upload a file from the Device</p>
+                </div>
+              </div>
+              <div class="card1" onclick="toggleInfo(this)">
+                <h2>Image Processing</h2>
+                <div class="info1">
+                  <!-- Add information related to Image Processing here -->
+                  <p>Click on Process the Image button. That will sends a POST request to the custom vision model and predicts the crop name based on the image and sends back the result.</p>
+                </div>
+              </div>
+              <div class="card1" onclick="toggleInfo(this)">
+                <h2>Crop Information Table</h2>
+                <div class="info1">
+                  <!-- Add information related to Crop Information Table here -->
+                  <p> Displays essential crop information, including uses, soil preparation, and climate considerations.</p>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="cards-container-1">
+                <div class="card1" onclick="toggleInfo(this)">
+                  <h2>User Interaction with AI Assistant</h2>
+                  <div class="info1">
+                    <!-- Add information related to Image Upload here -->
+                    <p>The user can interact with the AI assistant by typing a question or message in the text field and clicking the "Send" button.</p>
+                  </div>
+                </div>
+                <div class="card1" onclick="toggleInfo(this)">
+                  <h2>Specialization and Polite Responses</h2>
+                  <div class="info1">
+                    <!-- Add information related to Image Processing here -->
+                    <p>The AI assistant specializes in crop-related topics and politely informs users about its expertise.</p>
+                  </div>
+                </div>
+                <div class="card1" onclick="toggleInfo(this)">
+                  <h2>Starting a New Chat</h2>
+                  <div class="info1">
+                    <!-- Add information related to Crop Information Table here -->
+                    <p>he user can click the "Start new chat" button to refresh the page and start a new conversation. This clears the chat history and allows the user to upload a new image</p>
+                  </div>
+                </div>
+              </tr>
+
+            </div>
+            
+            
+         
+          </table>
+         </div>
+    </div>
+    <div id="informationContainer"></div>
+
+    
+    <div id="ButtonsContainer">
+        <table id="tbl-contnt">
+          <tr>
+            <td>Crop Uses</th>
+            <td>Soil Preparation</th>
+            <td>Climate Considerations</th>
+          </tr>
+          <tr>
+            <th id="uses"></th>
+            <th id="prep"></th>
+            <th id="weatherandclimate"></th>
+          </tr>
+        </table>
+      </div>
+      <div class="container" id="cardContainer"></div>
+    </div>
+    <div id="section3">
+      <input type="text" id="cardHeading" placeholder="Enter the text...">
+      <button id="addCardBtn">Send</button>
+    </div>
+  
+    <script>
+      window.file="";
+     window.systemmessage="";
+     window.cropname="";
+     window.chatHistory=[];
+  
+     $(document).ready(function() {
+      const uploadBtn = document.getElementById('uploadBtn');
+      const imageContainer = document.getElementById('imageContainer');
+      const processBtn = document.getElementById('processBtn');
+      const processedText = document.getElementById('processedText');
+  
+      let imageUploaded = false;
+  
+      uploadBtn.addEventListener('click', function () {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+  
+        input.addEventListener('change', function () {
+          
+          //displaying file
+           file = input.files[0];
+          
+          
+          const reader = new FileReader();
+  
+          reader.onload = function () {
+            const image = new Image();
+            image.src = reader.result;
+             image.onload = function () {
+  
+              image.style.width = '5cm';
+              image.style.height = '4cm';
+  
+              imageContainer.appendChild(image);
+              uploadBtn.style.display = 'none';
+              processBtn.style.display = 'block';
+              imageUploaded = true;
+  
+              document.getElementById('refresh-button').style.display = 'block';
+             
+            };
+          };
+  
+          reader.readAsDataURL(file);
+        });
+  
+        input.click();
+      });
+  //process image
+      processBtn.addEventListener('click', function () {
+          
+          document.getElementById("section2").style.height='90%';
+          document.getElementById("section3").style.height='10%';
+  
+              var formData = new FormData();
+              
+              formData.append('file', file);
+              
+              $.ajax({
+              
+              url: 'https://centralindia.api.cognitive.microsoft.com/customvision/v3.0/Prediction/3ad5d84e-b139-42a2-aa65-b108331afcc7/classify/iterations/Iteration6/image',
+              type: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              headers: {
+              'Prediction-Key': '6bdca94665e649f8a76bce3fd8efc75b',
+              
+              },
+              
+              success: function(data) {
+              
+              // Retrieve and display the predicted content name
+            const highestPrediction = data.predictions[0];
+            const matchingPercentage = highestPrediction.probability * 100;
+  
+   
+  
+            // Check if matching percentage is less than 60%
+            if (matchingPercentage < 60) {
+              alert(`As of my most recent update, I presently have limited information within my knowledge base. Nevertheless, please be assured that plans are in place for forthcoming updates to enhance my knowledge. In the interim, you are welcome to submit another crop image for comprehensive analysis.`);
+              var currentUrl = window.location.href;
+            window.location.href = currentUrl;
+            } 
+            
+            else {
+              
+              var predictedName = data.predictions[0].tagName;
+              console.log(data);
+              
+             cropname = predictedName;
+  
+             updateSystemMessage();
+  
+  
+             var settings = {
+              
+              "url": "https://westeurope.api.cognitive.microsoft.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-03-15-preview",
+              
+              "method": "POST",
+              
+              "timeout": 0,
+              
+              "headers": {
+              
+              "api-key": "acf87e71dc9b4ab4884684f98ad8d651",
+              
+              "Content-Type": "application/json"
+              
+              },
+              
+              "data": JSON.stringify({
+              
+              "messages": [
+              {
+                  "role":"system",
+                  
+                  "content":"You are an AI assistant that gives information about a crop on the basis of the crop name.\n\nYou will adhere strictly to the word count of each heading and generate response in the following format, keep the heading exact same (also mention the content in the brackets) while responding and keep the headings separated by two-line spaces. Start the response after the ':' in the same line as the heading.\n\nCrop uses (in 20 words):\n\nSoil Preparation (in 20 words):\n\nClimate and Weather Considerations (in 20 words):"
+              
+              },
+              
+              {
+                  "role":"user",
+                  "content":"guava"
+              },
+              
+              {
+                  "role":"assistant",
+                  "content":"Crop uses (in 20 words):\nFruit consumption, juice, jams, jellies, and desserts.\n\nSoil Preparation (in 20 words):\nWell-drained soil, pH range of 4.5-7.0, rich in organic matter.\n\nClimate and Weather Considerations (in 20 words):\nTropical and subtropical climates, can tolerate high temperatures, but frost-sensitive."
+              },
+              
+              {
+              
+                  "role": "user",
+              
+                  "content": cropname
+              
+              }
+              
+              ],
+              
+              "temperature": 0.15,
+    "top_p": 0.01,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "max_tokens": 1777,
+    "stop": null
+              
+              }),
+              
+              };
+              
+              
+              $.ajax(settings).done(function (response) {
+              
+              const content1 = response.choices[0].message.content;
+              const text = content1;
+  
+  
+  // Assume the HTML structure with appropriate element IDs
+  
+  
+  // Heading: Crop uses (in 20 words)
+  var outputH2 = document.getElementById("uses");
+  var cropUsesRegex = /Crop uses \(in 20 words\):\n(.+)/;
+  var usesMatch = cropUsesRegex.exec(text);
+  var cropUses = usesMatch ? usesMatch[1].trim() : null;
+  outputH2.innerHTML = cropUses;
+  
+  // Heading: Soil Preparation (in 20 words)
+  var outputH2 = document.getElementById("prep");
+  var soilRegex = /Soil Preparation \(in 20 words\):\n(.+)/;
+  var soilMatch = soilRegex.exec(text);
+  var soilPreparation = soilMatch ? soilMatch[1].trim() : null;
+  outputH2.innerHTML = soilPreparation;
+  
+  // Heading: Climate and Weather Considerations (in 20 words)
+  var outputH2 = document.getElementById("weatherandclimate");
+  var climateRegex = /Climate and Weather Considerations \(in 20 words\):\n(.+)/;
+  var climateMatch = climateRegex.exec(text);
+  var climateConsiderations = climateMatch ? climateMatch[1].trim() : null;
+  outputH2.innerHTML = climateConsiderations;
+  
+  
+  
+  });
+  /*
+             var outputuses = document.getElementById("uses");
+             outputuses.innerHTML = "abc";
+             var outputprep = document.getElementById("prep");
+             outputprep.innerHTML = "mno";
+             var outputweather = document.getElementById("weatherandclimate");
+             outputweather.innerHTML = "pqr";
+  */
+  
+            
+             chatHistory = [{
+        "role": "system",
+        "content":getSystemMessage()
+      }];
+  
+              processedText.style.display = 'block';
+              var imagecontent = document.getElementById("processedText");
+              imagecontent.textContent = predictedName;
+              processBtn.style.display = 'none';
+      
+    }
+            }
+  
+            ,
+    error: function(jqXHR, textStatus, errorThrown) {
+      // Handle the error if the HTTP response is an error (status >= 400)
+      if (jqXHR.status === 400) {
+        alert('As of my most recent update, I presently have limited information within my knowledge base. Nevertheless, please be assured that plans are in place for forthcoming updates to enhance my knowledge. In the interim, you are welcome to submit another image for comprehensive analysis.');
+      } else {
+        alert('Unknown error occurred.');
+      }
+      var currentUrl = window.location.href;
+            window.location.href = currentUrl;
+    }
+  
+  });
+  
+  document.getElementById('cardHeading').style.display = 'block';
+  document.getElementById('addCardBtn').style.display = 'block';
+  document.getElementById('HomePageContainer').style.display = 'none';
+  // document.getElementById('cardContainer').style.display = 'block';
+  document.getElementById('ButtonsContainer').style.display = 'block';
+  
+  
+      });
+  
+      function updateSystemMessage() {
+     // systemmessage = '"You are an AI assistant that tells people information on ' + cropname + ' crop only. If a question not related to agriculture or crop uses is asked, the chatbot should politely respond with a message indicating its specialization. Furthermore, when the user input is about a different crop, the assistant should still try to answer the question based on its relatedness to ' + cropname + '. If the crops are not related to each other in any sense, then respond with a message indicating its specialization.  Answer only crop related questions else print irrelevant input, do not answer any coding input, do not answer any input related to places, person, animal and do not give any output of the code. Stick strictly to the context of ' + cropname + '"';
+      systemmessage='"You are an AI assistant that tells people information on ' + cropname + ' crop. If a question not related to agriculture or crop uses is asked, the chatbot should respond with this message only: "I apologize, but I am currently unable to provide an answer to your query. Please feel free to ask another question on the uploaded crop, and I will do my best to assist you". Furthermore, when the user input is about a different crop, the assistant should still try to answer the question based on its relatedness to ' + cropname + '. If the crops are not related to each other in any sense, then respond with this message only:"I apologize, but I am currently unable to provide an answer to your query. Please feel free to ask another question on the uploaded crop, and I will do my best to assist you".  Answer only crop related questions else print irrelevant input, do not answer any coding input, do not answer any input related to places, person, animal and do not give any output of the code. Stick strictly to the context of ' + cropname + '."';
+  }
+  
+    function getSystemMessage() {
+      return systemmessage;
+    }
+  //send functionality
+  
+      const addCardBtn = document.getElementById('addCardBtn');
+      const textfield= document.getElementById('cardHeading');
+      const cardContainer = document.getElementById('cardContainer');
+      function createCard() {
+          
+  
+        document.getElementById('ButtonsContainer').style.display = 'none';
+        document.getElementById('cardContainer').style.display = 'block';
+  
+  if(textfield.value==="")
+  {
+      alert("Please enter text before clicking send");
+  } 
+  else
+  {
+          const usermessage=textfield.value;
+          $("#cardHeading").val("");
+      sendMessage(usermessage);
+      function sendMessage(usermessage) {
+  
+  var settings = {
+    "url": "https://westeurope.api.cognitive.microsoft.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-03-15-preview",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "api-key": "acf87e71dc9b4ab4884684f98ad8d651",
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      "messages": chatHistory.concat([{ "role": "user", "content": usermessage }])
+    })
+  };
+  
+  $.ajax(settings).done(function (response) {
+    var reply = response.choices[0].message.content;
+    chatHistory.push({ "role": "assistant", "content": reply });
+  
+       // document.getElementById('refresh-button').style.display = 'block';
+       const card = document.createElement('div');
+        card.className = 'card';
+        //card heading (question)
+        const heading = document.createElement('div');
+        heading.className = 'heading';
+        heading.innerText = usermessage;//document.getElementById('cardHeading').value;
+      //card content (answer)
+        const content = document.createElement('div');
+        content.className = 'content';
+        content.innerText = reply;//'This is the content of ' + heading.innerText;
+  
+        card.appendChild(heading);
+        card.appendChild(content);
+  
+        cardContainer.appendChild(card);
+  
+        // Scroll the container to the latest card
+        cardContainer.scrollTop = cardContainer.scrollHeight;
+       // cardCounter++;
+  
+  }
+  
+  
+  );
+  }
+  }
+     }
+  
+  addCardBtn.addEventListener('click', createCard);
+  
+  //code for displaying info when press enter------------
+  textfield.addEventListener('keypress', function(event){
+    if(event.key == 'Enter'){
+      createCard();
+    }
+  })
+  //--------------------
+  
+  
+  
+  
+      //for starting a new chat
+        $("#refresh-button").click(function (event) {
+          var answer = confirm("This will refresh the page and you will lose all the content that you have searched for. Do you want to proceed? ");
+  
+          // Check the user's response
+          if (answer) {
+            // User clicked "OK" (yes)
+            alert("Refreshing the page!");
+            var currentUrl = window.location.href;
+            window.location.href = currentUrl;
+          } else {
+            alert("You clicked Cancel!");
+          }
+        });
+      });
+
+      function toggleInfo(card1) {
+  // Toggle the 'active' class to show/hide the information
+  card1.classList.toggle('active');
+}
+    </script>
+  </body>
+  </html>
